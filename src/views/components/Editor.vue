@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <p class="warn-content">
-      富文本基于
+      富文本基于~
       <el-link type="primary" href="https://www.kancloud.cn/wangfupeng/wangeditor3/332599" target="_blank">wangEditor</el-link>
     </p>
     <el-row :gutter="10">

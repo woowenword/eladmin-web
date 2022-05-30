@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-row :gutter="20">
-      <!--用户数据-->
+      <!--币种管理-->
       <!--工具栏-->
       <div class="head-container">
         <div v-if="crud.props.searchToggle">
@@ -37,78 +37,70 @@
         <crudOperation show="" :permission="permission" />
       </div>
       <!--表单渲染-->
-      <el-dialog append-to-body :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="570px">
-        <el-form ref="form" :inline="true" :model="form" :rules="rules" size="small" label-width="66px">
-          <el-form-item label="用户名" prop="username">
-            <el-input v-model="form.username" @keydown.native="keydown($event)" />
+      <el-dialog append-to-body :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="70%">
+        <el-form ref="form" :inline="true" :model="form" :rules="rules" size="small" label-width="120px">
+          <el-form-item label="币种id" prop="coin">
+            <el-input v-model="form.coin" @keydown.native="keydown($event)" :disabled="true" />
           </el-form-item>
-          <el-form-item label="电话" prop="phone">
-            <el-input v-model.number="form.phone" />
+          <el-form-item label="币种名称" prop="coin_name">
+            <el-input v-model.number="form.coin_name" :disabled="true" />
           </el-form-item>
-          <el-form-item label="昵称" prop="nickName">
-            <el-input v-model="form.nickName" @keydown.native="keydown($event)" />
-          </el-form-item>
-          <el-form-item label="邮箱" prop="email">
-            <el-input v-model="form.email" />
-          </el-form-item>
-          <el-form-item label="部门" prop="dept.id">
+          <el-form-item label="合约状态" prop="contract_status">
             <treeselect
-              v-model="form.dept.id"
-              :options="depts"
+              v-model="form.contract_status"
+              :options="status_list"
               :load-options="loadDepts"
               style="width: 178px"
-              placeholder="选择部门"
+              placeholder="选择合约状态"
             />
           </el-form-item>
-          <el-form-item label="岗位" prop="jobs">
-            <el-select
-              v-model="jobDatas"
+          <el-form-item label="合约类型" prop="contract_type">
+            <treeselect
+              v-model="form.contract_type"
+              :options="type_list"
+              :load-options="loadDepts"
               style="width: 178px"
-              multiple
-              placeholder="请选择"
-              @remove-tag="deleteTag"
-              @change="changeJob"
-            >
-              <el-option
-                v-for="item in jobs"
-                :key="item.name"
-                :label="item.name"
-                :value="item.id"
-              />
-            </el-select>
+              placeholder="选择合约类型"
+            />
           </el-form-item>
-          <el-form-item label="性别">
-            <el-radio-group v-model="form.gender" style="width: 178px">
-              <el-radio label="男">男</el-radio>
-              <el-radio label="女">女</el-radio>
-            </el-radio-group>
+          <el-form-item label="撮合服务的编号" prop="cross_idx">
+            <el-input v-model="form.cross_idx" />
           </el-form-item>
-          <el-form-item label="状态">
-            <el-radio-group v-model="form.enabled" :disabled="form.id === user.id">
-              <el-radio
-                v-for="item in dict.user_status"
-                :key="item.id"
-                :label="item.value"
-              >{{ item.label }}</el-radio>
-            </el-radio-group>
+          <el-form-item label="撮合服务的名称" prop="cross_name">
+            <el-input v-model="form.cross_name" />
           </el-form-item>
-          <el-form-item style="margin-bottom: 0;" label="角色" prop="roles">
-            <el-select
-              v-model="roleDatas"
-              style="width: 437px"
-              multiple
-              placeholder="请选择"
-              @remove-tag="deleteTag"
-              @change="changeRole"
-            >
-              <el-option
-                v-for="item in roles"
-                :key="item.name"
-                :disabled="level !== 1 && item.level <= level"
-                :label="item.name"
-                :value="item.id"
-              />
-            </el-select>
+          <el-form-item label="数量小数位数" prop="lot_fraction">
+            <el-input v-model="form.lot_fraction" :disabled="true" />
+          </el-form-item>
+          <el-form-item label="1" prop="lot_size_x">
+            <el-input v-model="form.lot_size_x" :disabled="true" />
+          </el-form-item>
+          <el-form-item label="最小价格" prop="min_qty_x">
+            <el-input v-model="form.min_qty_x" :disabled="true" />
+          </el-form-item>
+          <el-form-item label="qty,size的放大倍数" prop="one_x">
+            <el-input v-model="form.one_x" :disabled="true" />
+          </el-form-item>
+          <el-form-item label="价格小数位数（对外展示）" prop="price_fraction">
+            <el-input v-model="form.price_fraction" :disabled="true" />
+          </el-form-item>
+          <el-form-item label="价格缩放倍数" prop="price_scale">
+            <el-input v-model="form.price_scale" :disabled="true" />
+          </el-form-item>
+          <el-form-item label="币对编号" prop="symbol">
+            <el-input v-model="form.symbol" :disabled="true" />
+          </el-form-item>
+          <el-form-item label="币对名称" prop="symbol_name">
+            <el-input v-model="form.symbol_name" :disabled="true" />
+          </el-form-item>
+          <el-form-item label="价格最小增量" prop="tick_size_x">
+            <el-input v-model="form.tick_size_x" :disabled="true" />
+          </el-form-item>
+          <el-form-item label="价值缩放倍数" prop="value_scale">
+            <el-input v-model="form.value_scale" :disabled="true" />
+          </el-form-item>
+          <el-form-item label="该symbol当前配置的版本号" prop="version">
+            <el-input v-model="form.version" :disabled="true" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -123,8 +115,8 @@
         <el-table-column :show-overflow-tooltip="true" prop="coin_name" label="币种名称" />
         <el-table-column prop="contract_status" label="合约状态" />
         <el-table-column prop="contract_type" label="合约类型" />
-        <el-table-column prop="cross_idx" width="100" label="相应撮合服务的编号" />
-        <el-table-column prop="cross_name" width="100" label="相应撮合服务的名称" />
+        <el-table-column prop="cross_idx" width="100" label="撮合服务的编号" />
+        <el-table-column prop="cross_name" width="100" label="撮合服务的名称" />
         <el-table-column prop="lot_fraction" width="100" label="数量小数位数" />
         <el-table-column prop="lot_size_x" width="100" label="1" />
         <el-table-column prop="min_price_x" width="100" label="最小价格" />
@@ -172,7 +164,7 @@
 </template>
 
 <script>
-import crudUser from '@/api/system/user'
+import crudUser from '@/api/symbol/currency'
 import { isvalidPhone } from '@/utils/validate'
 import { getDepts, getDeptSuperior } from '@/api/system/dept'
 import { getAll, getLevel } from '@/api/system/role'
@@ -194,7 +186,7 @@ export default {
   name: 'User',
   components: { Treeselect, crudOperation, rrOperation, udOperation, pagination, DateRangePicker },
   cruds() {
-    return CRUD({ title: '用户', url: 'api/symbol/list', crudMethod: { ...crudUser }})
+    return CRUD({ title: '币种管理', url: 'api/symbol/list', crudMethod: { ...crudUser }})
   },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   // 数据字典
@@ -212,6 +204,16 @@ export default {
     }
     return {
       height: document.documentElement.clientHeight - 180 + 'px;',
+      status_list: [
+        { id: 'Pending', label: 'Pending' },
+        { id: 'Trading', label: 'Trading' },
+        { id: 'Settling', label: 'Settling' },
+        { id: 'Closed', label: 'Closed' }
+      ],
+      type_list: [
+        { id: 'UNKNOWN', label: 'UNKNOWN' },
+        { id: 'LinearPerpetual', label: 'LinearPerpetual' }
+      ],
       deptName: '', depts: [], deptDatas: [], jobs: [], level: 3, roles: [],
       jobDatas: [], roleDatas: [], // 多选时使用
       defaultProps: { children: 'children', label: 'name', isLeaf: 'leaf' },
@@ -323,27 +325,25 @@ export default {
     },
     // 提交前做的操作
     [CRUD.HOOK.afterValidateCU](crud) {
-      if (!crud.form.dept.id) {
+      if (!crud.form.contract_status) {
         this.$message({
-          message: '部门不能为空',
+          message: '合约状态不能为空',
           type: 'warning'
         })
         return false
-      } else if (this.jobDatas.length === 0) {
+      } else if (!crud.form.cross_idx) {
         this.$message({
-          message: '岗位不能为空',
+          message: '撮合服务的编号不能为空',
           type: 'warning'
         })
         return false
-      } else if (this.roleDatas.length === 0) {
+      } else if (!crud.form.cross_name) {
         this.$message({
-          message: '角色不能为空',
+          message: '撮合服务的名称不能为空',
           type: 'warning'
         })
         return false
       }
-      crud.form.roles = userRoles
-      crud.form.jobs = userJobs
       return true
     },
     getDepts() {

@@ -7,6 +7,81 @@
       </div>
       <crudOperation show="" :permission="permission" />
     </div>
+    <!--Form表单-->
+    <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" append-to-body width="730px">
+      <el-form ref="form" :inline="true" :model="form" :rules="rules" size="small" label-width="100px">
+        <p>基础资料</p>
+        <div class="border-style">
+          <el-form-item label="UID" prop="jobName">
+            <el-input v-model="form.jobName" style="width: 220px;" />
+          </el-form-item>
+          <el-form-item label="昵称" prop="jobName">
+            <el-input v-model="form.jobName" style="width: 220px;" />
+          </el-form-item>
+          <el-form-item label="注册时间" prop="jobName">
+            <el-input v-model="form.jobName" style="width: 220px;" />
+          </el-form-item>
+          <el-form-item label="最后登录时间" prop="description">
+            <el-input v-model="form.description" style="width: 220px;" />
+          </el-form-item>
+          <el-form-item label="Address" prop="beanName">
+            <el-input v-model="form.beanName" style="width: 220px;" />
+          </el-form-item>
+          <el-form-item label="邮箱" prop="methodName">
+            <el-input v-model="form.methodName" style="width: 220px;" />
+          </el-form-item>
+          <el-form-item label="账户状态" prop="cronExpression">
+            <el-input v-model="form.cronExpression" style="width: 220px;" />
+          </el-form-item>
+        </div>
+        <p>资产信息</p>
+        <div class="border-style">
+          <el-form-item label="总资产" prop="jobName">
+            <el-input v-model="form.jobName" style="width: 220px;" />
+          </el-form-item>
+          <el-form-item label="30日交易集" prop="jobName">
+            <el-input v-model="form.jobName" style="width: 220px;" />
+          </el-form-item>
+          <el-form-item label="可用保证金" prop="jobName">
+            <el-input v-model="form.jobName" style="width: 220px;" />
+          </el-form-item>
+          <el-form-item label="累计交易值" prop="description">
+            <el-input v-model="form.description" style="width: 220px;" />
+          </el-form-item>
+          <el-form-item label="仓位价值" prop="beanName">
+            <el-input v-model="form.beanName" style="width: 220px;" />
+          </el-form-item>
+          <el-form-item label="累计手续费贡献" prop="methodName">
+            <el-input v-model="form.methodName" style="width: 220px;" />
+          </el-form-item>
+          <el-form-item label="用户手续费等级" prop="cronExpression">
+            <el-input v-model="form.cronExpression" style="width: 220px;" />
+          </el-form-item>
+        </div>
+        <p>查询</p>
+        <div class="border-style">
+          <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tab-pane label="充值记录" name="first">充值记录</el-tab-pane>
+            <el-tab-pane label="提现记录" name="second">提现记录</el-tab-pane>
+            <el-tab-pane label="委托记录" name="third">委托记录</el-tab-pane>
+            <el-tab-pane label="交易记录" name="fourth">交易记录</el-tab-pane>
+          </el-tabs>
+        </div>
+        <p>账户操作日志记录</p>
+        <div class="border-style">
+          <el-table ref="table" v-loading="crud.loading" :data="form.data" style="width: 100%;">
+            <el-table-column prop="时间" label="时间" />
+            <el-table-column prop="IP" label="IP" />
+            <el-table-column prop="设备信息" label="设备信息" />
+            <el-table-column prop="操作内容" label="操作内容" />
+          </el-table>
+        </div>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="text" @click="crud.cancelCU">取消</el-button>
+        <el-button :loading="crud.status.cu === 2" type="primary" @click="crud.submitCU">确认</el-button>
+      </div>
+    </el-dialog>
     <!--表格渲染-->
     <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
       <el-table-column type="selection" width="55" />
@@ -27,20 +102,23 @@
 </template>
 
 <script>
-import CRUD, { presenter, header, crud } from '@crud/crud'
+import crudJob from '@/api/account/account'
+import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import pagination from '@crud/Pagination'
 
+const defaultForm = { id: null, jobName: null, subTask: null, beanName: null, methodName: null, params: null, cronExpression: null, pauseAfterFailure: true, isPause: false, personInCharge: null, email: null, description: null }
 export default {
   name: 'OnlineUser',
   components: { pagination, crudOperation, rrOperation },
   cruds() {
-    return CRUD({ url: 'api/account/list', title: '账户管理' })
+    return CRUD({ url: 'api/account/list', title: '账户管理', crudMethod: { ...crudJob }})
   },
-  mixins: [presenter(), header(), crud()],
+  mixins: [presenter(), header(), form(defaultForm), crud()],
   data() {
     return {
+      activeName: 'first',
       delLoading: false,
       permission: {}
     }
@@ -56,3 +134,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .border-style {
+    padding: 15px 0 0 10px;
+    border: 1px solid #eee
+  }
+</style>

@@ -3,7 +3,7 @@ import { encrypt } from '@/utils/rsaEncrypt'
 
 export function add(data) {
   return request({
-    url: 'api/symbol/list',
+    url: 'api/symbol',
     method: 'post',
     data
   })

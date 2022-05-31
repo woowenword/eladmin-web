@@ -1,59 +1,11 @@
 <template>
   <div class="app-container">
     <el-row :gutter="20">
-      <!--币种管理-->
-      <!--工具栏-->
-      <div class="head-container">
-        <div v-if="crud.props.searchToggle">
-          <!-- 搜索 -->
-          <!-- <el-input
-            v-model="query.blurry"
-            clearable
-            size="small"
-            placeholder="输入名称或者邮箱搜索"
-            style="width: 200px;"
-            class="filter-item"
-            @keyup.enter.native="crud.toQuery"
-          />
-          <date-range-picker v-model="query.createTime" class="date-item" />
-          <el-select
-            v-model="query.enabled"
-            clearable
-            size="small"
-            placeholder="状态"
-            class="filter-item"
-            style="width: 90px"
-            @change="crud.toQuery"
-          >
-            <el-option
-              v-for="item in enabledTypeOptions"
-              :key="item.key"
-              :label="item.display_name"
-              :value="item.key"
-            />
-          </el-select>
-          <rrOperation />-->
-        </div>
-      </div>
       <!--表格渲染-->
-      <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 50%;" @selection-change="crud.selectionChangeHandler">
+      <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 50%;">
         <el-table-column type="selection" width="55" />
         <el-table-column prop="symbol_name" label="币对" />
         <el-table-column prop="cross_idx" label="撮合服务的编号" />
-        <!-- <el-table-column
-          v-if="checkPer(['admin','user:del'])"
-          label="操作"
-          width="115"
-          align="center"
-          fixed="right"
-        >
-          <template slot-scope="scope">
-            <udOperation
-              :data="scope.row"
-              :permission="permission"
-            />
-          </template>
-        </el-table-column> -->
         <el-table-column v-if="checkPer(['admin','deployHistory:del'])" label="操作" width="100px" align="center">
           <template slot-scope="scope">
             <el-popover

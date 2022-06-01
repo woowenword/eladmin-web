@@ -40,7 +40,7 @@
       <el-dialog append-to-body :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="70%">
         <el-form ref="form" :inline="true" :model="form" :rules="rules" size="small" label-width="120px">
           <el-form-item label="coin" prop="coin">
-            <el-input v-model="form.coin" @keydown.native="keydown($event)" :disabled="crud.status.add ? false : true" />
+            <el-input v-model="form.coin" :disabled="crud.status.add ? false : true" @keydown.native="keydown($event)" />
           </el-form-item>
           <el-form-item label="币种名称" prop="coin_name">
             <el-input v-model.number="form.coin_name" :disabled=" crud.status.add ? false : true " @keydown.native="keydown($event)" />
@@ -223,7 +223,7 @@ export default {
     ])
   },
   created() {
-    this.crud.msg.add = '新增成功，默认密码：123456'
+    this.crud.msg.add = '新增成功'
     this.crud.optShow = {
       add: true,
       edit: true,

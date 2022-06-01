@@ -29,8 +29,6 @@
       <el-table-column :show-overflow-tooltip="true" label="交易TXID" prop="l1_tx.hash" />
       <el-table-column label="确认到账时间" prop="l1_tx.time" width="100" />
     </el-table>
-    <!--分页组件-->
-    <pagination />
   </div>
 </template>
 
@@ -38,13 +36,12 @@
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import CRUD, { presenter, header, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
-import pagination from '@crud/Pagination'
 import crudOperation from '@crud/CRUD.operation'
 import DateRangePicker from '@/components/DateRangePicker'
 
 export default {
   name: 'Deposit',
-  components: { pagination, crudOperation, rrOperation, DateRangePicker },
+  components: { crudOperation, rrOperation, DateRangePicker },
   cruds() {
     return CRUD({ title: '充值管理', url: 'api/dewi/deposits', crudMethod: {}})
   },

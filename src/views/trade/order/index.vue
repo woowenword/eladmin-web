@@ -18,16 +18,16 @@
     </div>
     <!--表格渲染-->
     <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
-      <el-table-column type="selection" width="55" />
-      <el-table-column label="充值时间" prop="created_time" />
-      <el-table-column :show-overflow-tooltip="true" label="状态" align="center" prop="status" />
-      <el-table-column label="币种" prop="currency_id" />
-      <el-table-column label="金额" prop="amount" />
-      <el-table-column label="原始链" prop="ETH" />
-      <el-table-column label="原币种" prop="currency_id" />
-      <el-table-column :show-overflow-tooltip="true" label="充值帐户" prop="eth_address" />
-      <el-table-column :show-overflow-tooltip="true" label="交易TXID" prop="l1_tx.hash" />
-      <el-table-column label="确认到账时间" prop="l1_tx.time" width="100" />
+      <el-table-column label="委托时间" prop="created_time" :formatter="dateFormat" />
+      <el-table-column label="币对" prop="symbol" />
+      <el-table-column label="委托数量" prop="size" />
+      <el-table-column label="价格" prop="price" />
+      <el-table-column label="成交数量" prop="cum_match_fill_size" />
+      <el-table-column label="方向" prop="side" />
+      <el-table-column :show-overflow-tooltip="true" label="类型" align="center" prop="type" />
+      <el-table-column :show-overflow-tooltip="true" label="状态" prop="status" />
+      <el-table-column :show-overflow-tooltip="true" label="订单编号" prop="id" />
+      <el-table-column label="UID" prop="user_id" width="100" />
     </el-table>
     <!--分页组件-->
     <pagination />
@@ -37,16 +37,16 @@
 <script>
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import CRUD, { presenter, header, crud } from '@crud/crud'
-import rrOperation from '@crud/RR.operation'
 import pagination from '@crud/Pagination'
+import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import DateRangePicker from '@/components/DateRangePicker'
 
 export default {
-  name: 'Deposit',
+  name: 'Order',
   components: { pagination, crudOperation, rrOperation, DateRangePicker },
   cruds() {
-    return CRUD({ title: '充值管理', url: 'api/dewi/deposits', crudMethod: {}})
+    return CRUD({ title: '委托单管理', url: 'api/order/list', crudMethod: {}})
   },
   mixins: [presenter(), header(), crud()],
   // 设置数据字典
@@ -81,8 +81,7 @@ export default {
       download: false
     }
   },
-  methods: {
-  }
+  methods: {}
 }
 </script>
 

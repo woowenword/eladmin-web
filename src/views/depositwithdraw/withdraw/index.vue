@@ -17,7 +17,7 @@
     <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
       <el-table-column type="selection" width="55" />
       <el-table-column label="提现申请时间" prop="created_time" />
-      <el-table-column :show-overflow-tooltip="true" label="状态" align="center" prop="status"  :formatter="formatter" />
+      <el-table-column :show-overflow-tooltip="true" label="状态" align="center" prop="status" :formatter="formatter" />
       <el-table-column label="币种" prop="currency_id" />
       <el-table-column label="金额" prop="amount" />
       <el-table-column label="链路" prop="ETH" />
@@ -26,6 +26,8 @@
       <el-table-column :show-overflow-tooltip="true" label="交易TXID" prop="l1_tx.hash" />
       <el-table-column label="提现打款时间" prop="l1_tx.time" width="100" />
     </el-table>
+    <!--分页组件-->
+    <pagination />
   </div>
 </template>
 
@@ -33,12 +35,13 @@
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import CRUD, { presenter, header, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
+import pagination from '@crud/Pagination'
 import crudOperation from '@crud/CRUD.operation'
 import DateRangePicker from '@/components/DateRangePicker'
 
 export default {
   name: 'Deposit',
-  components: { crudOperation, rrOperation, DateRangePicker },
+  components: { pagination, crudOperation, rrOperation, DateRangePicker },
   cruds() {
     return CRUD({ title: '提现管理', url: 'api/dewi/withdraws', crudMethod: { }})
   },

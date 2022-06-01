@@ -2,6 +2,8 @@ import Vue from 'vue'
 
 import Cookies from 'js-cookie'
 
+import moment from 'moment'
+
 import 'normalize.css/normalize.css'
 
 import Element from 'element-ui'
@@ -41,6 +43,7 @@ Vue.use(Element, {
 })
 
 Vue.config.productionTip = false
+Vue.prototype.$moment = moment
 
 new Vue({
   el: '#app',

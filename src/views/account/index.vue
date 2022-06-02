@@ -9,7 +9,7 @@
     </div>
     <!--Form表单-->
     <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" append-to-body width="730px">
-      <el-form ref="form" :inline="true" :model="form" :rules="rules" size="small" label-width="100px">
+      <el-form ref="form" :inline="true" :model="form" size="small" label-width="100px">
         <p>基础资料</p>
         <div class="border-style">
           <el-form-item label="UID" prop="jobName">
@@ -89,7 +89,7 @@
       <el-table-column prop="nickName" label="昵称" />
       <el-table-column prop="dept" label="Address" />
       <el-table-column prop="browser" label="邮箱" />
-      <el-table-column prop="loginTime" label="注册时间" />
+      <el-table-column prop="loginTime" label="注册时间" :formatter="formatterTimer" width="150" />
       <el-table-column label="操作" width="70px" fixed="right">
         <template slot-scope="scope">
           <el-button v-permission="['admin','timing:edit']" size="mini" style="margin-right: 3px;" type="text" @click="crud.toEdit(scope.row)">查看</el-button>
@@ -119,7 +119,6 @@ export default {
   data() {
     return {
       activeName: 'first',
-      delLoading: false,
       permission: {}
     }
   },
@@ -130,6 +129,14 @@ export default {
       edit: false,
       del: false,
       download: false
+    }
+  },
+  methods: {
+    formatterTimer(row, column) {
+      return this.$moment(Math.round(row.created_time)).format('YYYY-MM-DD:HH-mm-ss')
+    },
+    handleClick() {
+
     }
   }
 }

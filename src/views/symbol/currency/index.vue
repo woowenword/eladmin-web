@@ -4,36 +4,6 @@
       <!--币种管理-->
       <!--工具栏-->
       <div class="head-container">
-        <div v-if="crud.props.searchToggle">
-          <!-- 搜索 -->
-          <!-- <el-input
-            v-model="query.blurry"
-            clearable
-            size="small"
-            placeholder="输入名称或者邮箱搜索"
-            style="width: 200px;"
-            class="filter-item"
-            @keyup.enter.native="crud.toQuery"
-          />
-          <date-range-picker v-model="query.createTime" class="date-item" />
-          <el-select
-            v-model="query.enabled"
-            clearable
-            size="small"
-            placeholder="状态"
-            class="filter-item"
-            style="width: 90px"
-            @change="crud.toQuery"
-          >
-            <el-option
-              v-for="item in enabledTypeOptions"
-              :key="item.key"
-              :label="item.display_name"
-              :value="item.key"
-            />
-          </el-select>
-          <rrOperation />-->
-        </div>
         <crudOperation show="" :permission="permission" />
       </div>
       <!--表单渲染-->
@@ -152,32 +122,26 @@
 </template>
 
 <script>
-import crudUser from '@/api/symbol/currency'
-import { isvalidPhone } from '@/utils/validate'
+import crudCurrency from '@/api/symbol/currency'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 import Treeselect from '@riophae/vue-treeselect'
-import { mapGetters } from 'vuex'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-const defaultForm = { id: null, username: null, nickName: null, gender: '男', email: null, enabled: 'false', roles: [], jobs: [], dept: { id: null }, phone: null }
+const defaultForm = { id: null, coin: null, coin_name: null, contract_status: null, contract_type: null, cross_idx: null, cross_name: null, lot_fraction: null, lot_size_x: null, min_price_x: null, min_qty_x: null, one_x: null, price_fraction: null, price_scale: null, symbol: null, symbol_name: null, tick_size_x: null, value_scale: null, version: null }
 export default {
   name: 'Currency',
   components: { Treeselect, crudOperation, udOperation, pagination },
   cruds() {
-    return CRUD({ title: '币种管理', url: 'api/symbol/list', crudMethod: { ...crudUser }})
+    return CRUD({ title: '币种管理', url: 'api/symbol/list', crudMethod: { ...crudCurrency }})
   },
   mixins: [presenter(), header(), form(defaultForm), crud()],
-  // 数据字典
-  dicts: ['user_status'],
   data() {
     // 自定义验证
     const validPhone = (rule, value, callback) => {
       if (!value) {
         callback(new Error('请输入电话号码'))
-      } else if (!isvalidPhone(value)) {
-        callback(new Error('请输入正确的11位手机号码'))
       } else {
         callback()
       }
@@ -194,18 +158,11 @@ export default {
         { id: 'UNKNOWN', label: 'UNKNOWN' },
         { id: 'LinearPerpetual', label: 'LinearPerpetual' }
       ],
-      deptName: '', depts: [], deptDatas: [], jobs: [], level: 3, roles: [],
-      jobDatas: [], roleDatas: [], // 多选时使用
-      defaultProps: { children: 'children', label: 'name', isLeaf: 'leaf' },
       permission: {
         add: ['admin', 'user:add'],
         edit: ['admin', 'user:edit'],
         del: ['admin', 'user:del']
       },
-      enabledTypeOptions: [
-        { key: 'true', display_name: '激活' },
-        { key: 'false', display_name: '锁定' }
-      ],
       rules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -216,11 +173,6 @@ export default {
         ]
       }
     }
-  },
-  computed: {
-    ...mapGetters([
-      'user'
-    ])
   },
   created() {
     this.crud.msg.add = '新增成功'
@@ -244,16 +196,6 @@ export default {
         e.returnValue = false
       }
     },
-    // 新增与编辑前做的操作
-    [CRUD.HOOK.afterToCU](crud, form) {
-      form.enabled = form.enabled.toString()
-    },
-    // 新增前将多选的值设置为空
-    [CRUD.HOOK.beforeToAdd](crud, form) {
-      form = null
-    },
-    // 初始化编辑时候的角色与岗位
-    [CRUD.HOOK.beforeToEdit](crud, form) {},
     // 提交前做的操作
     [CRUD.HOOK.afterValidateCU](crud) {
       if (!crud.form.contract_status) {

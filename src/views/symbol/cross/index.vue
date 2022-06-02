@@ -1,3 +1,4 @@
+<!-- 撮合管理 -->
 <template>
   <div class="app-container">
     <el-row :gutter="20">
@@ -5,11 +6,11 @@
       <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 50%;">
         <el-table-column prop="symbol_name" label="币对" />
         <el-table-column prop="symbol" label="币对编号" />
-        <el-table-column prop="cross_idx" label="撮合服务的编号" />
+        <el-table-column prop="cross_idx" label="撮合服务的编号" width="130" />
         <el-table-column v-if="checkPer(['admin','deployHistory:del'])" label="操作" width="100px" align="center">
           <template slot-scope="scope">
             <el-popover
-              :ref="scope.row.id"
+              :ref="scope.row.symbol_name"
               v-permission="['admin','deployHistory:del']"
               placement="top"
               width="180"
@@ -33,17 +34,15 @@
 <script>
 
 import { del } from '@/api/symbol/cross'
-import CRUD, { presenter, header, form, crud } from '@crud/crud'
+import CRUD, { presenter, crud } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-const defaultForm = { }
 export default {
-  name: 'Currency',
+  name: 'Cross',
   components: { pagination },
   cruds() {
     return CRUD({ title: '清空撮合', url: 'api/symbol/list', crudMethod: { del }})
   },
-  mixins: [presenter(), header(), form(defaultForm), crud()],
+  mixins: [presenter(), crud()],
   data() {
     // 自定义验证
     return {
@@ -66,26 +65,6 @@ export default {
         this.delLoading = false
         this.$refs[name].doClose()
       })
-    },
-    // 禁止输入空格
-    keydown(e) {
-      if (e.keyCode === 32) {
-        e.returnValue = false
-      }
-    },
-    // 新增与编辑前做的操作
-    [CRUD.HOOK.afterToCU](crud, form) {
-      form.enabled = form.enabled.toString()
-    },
-    // 新增前将多选的值设置为空
-    [CRUD.HOOK.beforeToAdd](crud, form) {
-      form = null
-    },
-    // 初始化编辑时候的角色与岗位
-    [CRUD.HOOK.beforeToEdit](crud, form) {},
-    // 提交前做的操作
-    [CRUD.HOOK.afterValidateCU](crud) {
-      return true
     }
   }
 }

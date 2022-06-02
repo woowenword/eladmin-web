@@ -19,7 +19,7 @@
     <!--表格渲染-->
     <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
       <el-table-column type="selection" width="55" />
-      <el-table-column label="充值时间" prop="created_time" />
+      <el-table-column label="充值时间" prop="created_time" width="150" :formatter="formatterTimer" />
       <el-table-column :show-overflow-tooltip="true" label="状态" align="center" prop="status" />
       <el-table-column label="币种" prop="currency_id" />
       <el-table-column label="金额" prop="amount" />
@@ -27,7 +27,7 @@
       <el-table-column label="原币种" prop="currency_id" />
       <el-table-column :show-overflow-tooltip="true" label="充值帐户" prop="eth_address" />
       <el-table-column :show-overflow-tooltip="true" label="交易TXID" prop="l1_tx.hash" />
-      <el-table-column label="确认到账时间" prop="l1_tx.time" width="100" />
+      <el-table-column label="确认到账时间" prop="l1_tx.time" width="150" :formatter="formatterTimer" />
     </el-table>
   </div>
 </template>
@@ -79,6 +79,9 @@ export default {
     }
   },
   methods: {
+    formatterTimer(row, column) {
+      return this.$moment(Math.round(row.created_time)).format('YYYY-MM-DD:HH-mm-ss')
+    }
   }
 }
 </script>

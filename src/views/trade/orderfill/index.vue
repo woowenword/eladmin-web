@@ -18,7 +18,7 @@
     </div>
     <!--表格渲染-->
     <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
-      <el-table-column label="成交时间" prop="created_time" :formatter="dateFormat" />
+      <el-table-column label="成交时间" prop="created_time" :formatter="formatterTimer" width="150" />
       <el-table-column label="币对" prop="symbol" />
       <el-table-column label="成交数量" prop="size" />
       <el-table-column label="价格" prop="price" />
@@ -84,6 +84,11 @@ export default {
   methods: {
     formatterTimer(row, column) {
       return this.$moment(Math.round(row.created_time)).format('YYYY-MM-DD:HH-mm-ss')
+    },
+    formatter(row, column) {
+      this.enabledTypeOptions.map(item => {
+        // return item[row.status]
+      })
     }
   }
 }

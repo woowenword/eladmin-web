@@ -31,16 +31,16 @@
               placeholder="选择合约类型"
             />
           </el-form-item>
-          <el-form-item label="撮合服务的编号" prop="cross_idx">
+          <el-form-item label="撮合服务编号" prop="cross_idx">
             <el-input v-model="form.cross_idx" />
           </el-form-item>
-          <el-form-item label="撮合服务的名称" prop="cross_name">
+          <el-form-item label="撮合服务名称" prop="cross_name">
             <el-input v-model="form.cross_name" />
           </el-form-item>
           <el-form-item label="数量小数位数" prop="lot_fraction">
             <el-input v-model="form.lot_fraction" :disabled="crud.status.add ? false : true" />
           </el-form-item>
-          <el-form-item label="1" prop="lot_size_x">
+          <el-form-item label="数量最小增量" prop="lot_size_x">
             <el-input v-model="form.lot_size_x" :disabled="crud.status.add ? false : true" />
           </el-form-item>
           <el-form-item label="最小价格" prop="min_price_x">
@@ -49,10 +49,10 @@
           <el-form-item label="最小数量" prop="min_qty_x">
             <el-input v-model="form.min_qty_x" :disabled="crud.status.add ? false : true" />
           </el-form-item>
-          <el-form-item label="qty,size的放大倍数" prop="one_x">
+          <el-form-item label="qty放大倍数" prop="one_x">
             <el-input v-model="form.one_x" :disabled="crud.status.add ? false : true" />
           </el-form-item>
-          <el-form-item label="价格小数位数（对外展示）" prop="price_fraction">
+          <el-form-item label="价格小数位数" prop="price_fraction">
             <el-input v-model="form.price_fraction" :disabled="crud.status.add ? false : true" />
           </el-form-item>
           <el-form-item label="价格缩放倍数" prop="price_scale">
@@ -70,8 +70,8 @@
           <el-form-item label="价值缩放倍数" prop="value_scale">
             <el-input v-model="form.value_scale" :disabled="crud.status.add ? false : true" />
           </el-form-item>
-          <el-form-item label="该symbol当前配置的版本号" prop="version">
-            <el-input v-model="form.version" :disabled="crud.status.add ? false : true" />
+          <el-form-item label="版本号" prop="version">
+            <el-input v-model="form.version" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -85,21 +85,21 @@
         <el-table-column :show-overflow-tooltip="true" prop="coin" label="coin" />
         <el-table-column prop="coin_name" label="币种名称" />
         <el-table-column prop="contract_status" label="合约状态" />
-        <el-table-column prop="contract_type" label="合约类型" />
-        <el-table-column prop="cross_idx" width="100" label="撮合服务的编号" />
-        <el-table-column prop="cross_name" width="100" label="撮合服务的名称" />
+        <el-table-column prop="contract_type" width="110" label="合约类型" />
+        <el-table-column prop="cross_idx" width="100" label="撮合服务编号" />
+        <el-table-column prop="cross_name" width="100" label="撮合服务名称" />
         <el-table-column prop="lot_fraction" width="100" label="数量小数位数" />
-        <el-table-column prop="lot_size_x" width="100" label="1" />
+        <el-table-column prop="lot_size_x" width="100" label="数量最小增量" />
         <el-table-column prop="min_price_x" width="100" label="最小价格" />
         <el-table-column prop="min_qty_x" width="100" label="最小数量" />
-        <el-table-column prop="one_x" width="100" label="qty,size的放大倍数" />
-        <el-table-column prop="price_fraction" width="100" label="价格小数位数（对外展示）" />
+        <el-table-column prop="one_x" width="100" label="qty放大倍数" />
+        <el-table-column prop="price_fraction" width="100" label="价格小数位数" />
         <el-table-column prop="price_scale" width="100" label="价格缩放倍数" />
         <el-table-column prop="symbol" width="100" label="币对编号" />
         <el-table-column prop="symbol_name" width="100" label="币对名称" />
         <el-table-column prop="tick_size_x" width="100" label="价格最小增量" />
         <el-table-column prop="value_scale" width="100" label="价值缩放倍数" />
-        <el-table-column prop="version" width="100" label="该symbol当前配置的版本号" />
+        <el-table-column prop="version" width="100" label="版本号" />
         <el-table-column
           v-if="checkPer(['admin','user:edit','user:del'])"
           label="操作"

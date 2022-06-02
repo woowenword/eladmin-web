@@ -17,7 +17,7 @@
     <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
       <el-table-column type="selection" width="55" />
       <el-table-column label="提现申请时间" prop="created_time" :formatter="formatterTimer" width="150" />
-      <el-table-column :show-overflow-tooltip="true" label="状态" align="center" prop="status"  :formatter="formatter" />
+      <el-table-column :show-overflow-tooltip="true" label="状态" align="center" prop="status" :formatter="formatter" />
       <el-table-column label="币种" prop="currency_id" />
       <el-table-column label="金额" prop="amount" />
       <el-table-column label="链路" prop="ETH" />

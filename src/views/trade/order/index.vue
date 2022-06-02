@@ -46,7 +46,7 @@ export default {
   name: 'Order',
   components: { pagination, crudOperation, rrOperation, DateRangePicker },
   cruds() {
-    return CRUD({ title: '委托单管理', url: 'api/order/list', crudMethod: {}})
+    return CRUD({ title: '委托单查询', url: 'api/order/list', crudMethod: {}})
   },
   mixins: [presenter(), header(), crud()],
   // 设置数据字典

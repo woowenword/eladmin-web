@@ -1,34 +1,43 @@
 <template>
-  <div class="app-container">
-    <!--工具栏-->
-    <div class="head-container">
-      <div v-if="crud.props.searchToggle">
-        <!-- 搜索 -->
-        <el-input v-model="query.keyword" clearable size="small" placeholder="输入名称搜索" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
-        <date-range-picker v-model="query.createTime" class="date-item" />
-        <el-select v-model="query.depositStatus" clearable size="small" placeholder="状态" class="filter-item" style="width: 90px" @change="crud.toQuery">
-          <el-option v-for="item in enabledTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
-        </el-select>
-        <rrOperation />
+  <el-tabs v-model="activeName" style="padding-left: 8px;">
+    <el-tab-pane label="跨链提现" name="second">
+      <div>
+        跨链充值
       </div>
-      <crudOperation :permission="permission" />
-    </div>
-    <!--表格渲染-->
-    <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
-      <el-table-column type="selection" width="55" />
-      <el-table-column label="提现申请时间" prop="created_time" :formatter="formatterTimer" width="150" />
-      <el-table-column :show-overflow-tooltip="true" label="状态" align="center" prop="status"  :formatter="formatter" />
-      <el-table-column label="币种" prop="currency_id" />
-      <el-table-column label="金额" prop="amount" />
-      <el-table-column label="链路" prop="ETH" />
-      <el-table-column label="费用(USDC)" prop="currency_id" />
-      <el-table-column :show-overflow-tooltip="true" label="提现帐户" prop="eth_address" />
-      <el-table-column :show-overflow-tooltip="true" label="交易TXID" prop="l1_tx.hash" />
-      <el-table-column label="提现打款时间" prop="l1_tx.time" width="150" :formatter="formatterTimer" />
-    </el-table>
-    <!--分页组件-->
-    <pagination />
-  </div>
+    </el-tab-pane>
+    <el-tab-pane label="普通提现" name="first">
+      <div class="app-container">
+        <!--工具栏-->
+        <div class="head-container">
+          <div v-if="crud.props.searchToggle">
+            <!-- 搜索 -->
+            <el-input v-model="query.keyword" clearable size="small" placeholder="输入名称搜索" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+            <date-range-picker v-model="query.createTime" class="date-item" />
+            <el-select v-model="query.depositStatus" clearable size="small" placeholder="状态" class="filter-item" style="width: 90px" @change="crud.toQuery">
+              <el-option v-for="item in enabledTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
+            </el-select>
+            <rrOperation />
+          </div>
+          <crudOperation :permission="permission" />
+        </div>
+        <!--表格渲染-->
+        <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
+          <el-table-column type="selection" width="55" />
+          <el-table-column label="提现申请时间" prop="created_time" :formatter="formatterTimer" width="150" />
+          <el-table-column :show-overflow-tooltip="true" label="状态" align="center" prop="status"  :formatter="formatter" />
+          <el-table-column label="币种" prop="currency_id" />
+          <el-table-column label="金额" prop="amount" />
+          <el-table-column label="链路" prop="ETH" />
+          <el-table-column label="费用(USDC)" prop="currency_id" />
+          <el-table-column :show-overflow-tooltip="true" label="提现帐户" prop="eth_address" />
+          <el-table-column :show-overflow-tooltip="true" label="交易TXID" prop="l1_tx.hash" />
+          <el-table-column label="提现打款时间" prop="l1_tx.time" width="150" :formatter="formatterTimer" />
+        </el-table>
+        <!--分页组件-->
+        <pagination />
+      </div>
+    </el-tab-pane>
+  </el-tabs>
 </template>
 
 <script>
@@ -50,6 +59,7 @@ export default {
   dicts: ['dept_status'],
   data() {
     return {
+      activeName: 'first',
       depts: [],
       permission: {
         add: ['admin', 'dept:add'],

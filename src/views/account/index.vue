@@ -60,12 +60,38 @@
         </div>
         <p>查询</p>
         <div class="border-style">
-          <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane label="充值记录" name="first">充值记录</el-tab-pane>
-            <el-tab-pane label="提现记录" name="second">提现记录</el-tab-pane>
-            <el-tab-pane label="委托记录" name="third">委托记录</el-tab-pane>
-            <el-tab-pane label="交易记录" name="fourth">交易记录</el-tab-pane>
-          </el-tabs>
+          <el-button
+            class="filter-item"
+            size="mini"
+            type="default"
+            @click="toJumpDeposite"
+          >
+            充值记录
+          </el-button>
+          <el-button
+            class="filter-item"
+            size="mini"
+            type="default"
+            @click="toJumpWithdraw"
+          >
+            提现记录
+          </el-button>
+          <el-button
+            class="filter-item"
+            size="mini"
+            type="default"
+            @click="crud.toAdd"
+          >
+            委托记录
+          </el-button>
+          <el-button
+            class="filter-item"
+            size="mini"
+            type="default"
+            @click="crud.toAdd"
+          >
+            交易记录
+          </el-button>
         </div>
         <p>账户操作日志记录</p>
         <div class="border-style">
@@ -118,7 +144,6 @@ export default {
   mixins: [presenter(), header(), form(defaultForm), crud()],
   data() {
     return {
-      activeName: 'first',
       permission: {}
     }
   },
@@ -135,15 +160,18 @@ export default {
     formatterTimer(row, column) {
       return this.$moment(Math.round(row.created_time)).format('YYYY-MM-DD:HH-mm-ss')
     },
-    handleClick() {
-
+    toJumpWithdraw() {
+      this.$route.push('/depositwithdraw/withdraw')
+    },
+    toJumpDeposite() {
+      this.$router.push('/depositwithdraw/deposit')
     }
   }
 }
 </script>
 <style scoped>
   .border-style {
-    padding: 15px 0 0 10px;
+    padding: 15px 0 10px 10px;
     border: 1px solid #eee
   }
 </style>

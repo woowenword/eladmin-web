@@ -112,10 +112,10 @@
     <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
       <el-table-column type="selection" width="55" />
       <el-table-column prop="id" label="UID" />
-      <el-table-column prop="nickName" label="昵称" />
-      <el-table-column prop="dept" label="Address" />
-      <el-table-column prop="browser" label="邮箱" />
-      <el-table-column prop="loginTime" label="注册时间" :formatter="formatterTimer" width="150" />
+      <el-table-column prop="nickname" label="昵称" />
+      <el-table-column prop="eth_address" label="Address" />
+      <el-table-column prop="email" label="邮箱" />
+      <el-table-column prop="created_time" label="注册时间" :formatter="formatterTimer" width="150" />
       <el-table-column label="操作" width="70px" fixed="right">
         <template slot-scope="scope">
           <el-button v-permission="['admin','timing:edit']" size="mini" style="margin-right: 3px;" type="text" @click="crud.toEdit(scope.row)">查看</el-button>
@@ -139,7 +139,7 @@ export default {
   name: 'OnlineUser',
   components: { pagination, crudOperation, rrOperation },
   cruds() {
-    return CRUD({ url: 'api/account/list', title: '账户管理', crudMethod: { ...crudJob }})
+    return CRUD({ url: 'api/dexuser/list', title: '账户管理', crudMethod: { ...crudJob }})
   },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   data() {

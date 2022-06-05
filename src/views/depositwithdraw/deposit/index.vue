@@ -11,6 +11,7 @@
         <div class="head-container">
           <div v-if="crud.props.searchToggle">
             <!-- 搜索 -->
+            <el-input v-model="query.accountId" clearable size="small" placeholder="输入accountId" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
             <el-input v-model="query.keyword" clearable size="small" placeholder="输入名称搜索" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
             <date-range-picker v-model="query.createTime" class="date-item" />
             <el-select v-model="query.currencyId" clearable size="small" placeholder="币种" class="filter-item" style="width: 90px" @change="crud.toQuery">

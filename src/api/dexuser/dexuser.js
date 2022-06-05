@@ -16,11 +16,10 @@ export function del(ids) {
   })
 }
 
-export function edit(data) {
+export function edit(user_id) {
   return request({
-    url: 'api/jobs',
-    method: 'put',
-    data
+    url: 'api/dexuser/detail?user_id=' + user_id,
+    method: 'get'
   })
 }
 

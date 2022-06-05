@@ -4,7 +4,7 @@
       <!--币种管理-->
       <!--工具栏-->
       <div class="head-container">
-        <crudOperation show="" :permission="permission" >
+        <crudOperation show="" :permission="permission">
           <el-button
             slot="left"
             class="filter-item"
@@ -201,7 +201,7 @@ export default {
     }
   },
   methods: {
-    toUpCoin() { 
+    toUpCoin() {
       // jiekou neirong
     },
     // 禁止输入空格

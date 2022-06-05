@@ -1,10 +1,5 @@
 <template>
   <el-tabs v-model="activeName" style="padding-left: 8px;">
-    <el-tab-pane label="跨链充值" name="second">
-      <div>
-        跨链充值
-      </div>
-    </el-tab-pane>
     <el-tab-pane label="普通充值" name="first">
       <div class="app-container">
         <!--工具栏-->
@@ -26,19 +21,23 @@
         </div>
         <!--表格渲染-->
         <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
-          <el-table-column type="selection" width="55" />
           <el-table-column label="充值时间" prop="l1_tx.time" :formatter="formatterTimer" width="150" />
           <el-table-column :show-overflow-tooltip="true" label="状态" prop="status" :formatter="formatterStatus" />
-          <el-table-column label="币种" prop="currency_id" />
+          <el-table-column label="币种" prop="currency_id" width="70" />
           <el-table-column label="金额" prop="amount" />
-          <el-table-column label="原始链" prop="origin_chain" />
-          <el-table-column label="原币种" prop="currency_id" />
+          <el-table-column label="原始链" prop="origin_chain" width="70" />
+          <el-table-column label="原币种" prop="currency_id" width="70" />
           <el-table-column :show-overflow-tooltip="true" label="充值帐户" prop="eth_address" />
           <el-table-column :show-overflow-tooltip="true" label="交易TXID" prop="l1_tx.hash" />
           <el-table-column label="确认到账时间" prop="updated_time" width="150" :formatter="formatterTimer" />
         </el-table>
         <!--分页组件-->
         <pagination />
+      </div>
+    </el-tab-pane>
+    <el-tab-pane label="跨链充值" name="second">
+      <div>
+        跨链充值
       </div>
     </el-tab-pane>
   </el-tabs>

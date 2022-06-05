@@ -23,11 +23,11 @@
       <el-table-column label="委托数量" prop="size" />
       <el-table-column label="价格" prop="price" />
       <el-table-column label="成交数量" prop="cum_match_fill_size" />
-      <el-table-column label="方向" prop="side" />
+      <el-table-column label="方向" prop="side" width="60" />
       <el-table-column :show-overflow-tooltip="true" label="类型" align="center" prop="type" />
       <el-table-column :show-overflow-tooltip="true" label="状态" prop="status" />
       <el-table-column :show-overflow-tooltip="true" label="订单编号" prop="id" />
-      <el-table-column label="UID" prop="user_id" width="100" />
+      <el-table-column label="UID" prop="user_id" width="150" />
     </el-table>
     <!--分页组件-->
     <pagination />

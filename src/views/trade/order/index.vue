@@ -9,7 +9,7 @@
         <el-select v-model="query.currencyId" clearable size="small" placeholder="币种" class="filter-item" style="width: 90px" @change="crud.toQuery">
           <el-option v-for="item in enabledCurrencyOptions" :key="item.key" :label="item.display_name" :value="item.key" />
         </el-select>
-        <el-select v-model="query.depositStatus" clearable size="small" placeholder="状态" class="filter-item" style="width: 90px" @change="crud.toQuery">
+        <el-select v-model="query.orderStatus" clearable size="small" placeholder="状态" class="filter-item" style="width: 90px" @change="crud.toQuery">
           <el-option v-for="item in enabledTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
         </el-select>
         <rrOperation />
@@ -25,7 +25,7 @@
       <el-table-column label="成交数量" prop="cum_match_fill_size" />
       <el-table-column label="方向" prop="side" width="60" />
       <el-table-column :show-overflow-tooltip="true" label="类型" align="center" prop="type" />
-      <el-table-column :show-overflow-tooltip="true" label="状态" prop="status" />
+      <el-table-column :show-overflow-tooltip="true" label="状态" prop="status" :formatter="formatterStatus" />
       <el-table-column :show-overflow-tooltip="true" label="订单编号" prop="id" />
       <el-table-column label="UID" prop="user_id" width="150" />
     </el-table>
@@ -60,13 +60,13 @@ export default {
         del: ['admin', 'dept:del']
       },
       enabledTypeOptions: [
-        { key: 'UNKNOWN_DEPOSIT_STATUS', display_name: '未知状态' },
-        { key: 'PENDING_L1_CREATING', display_name: '已在L1发现充值交易，创建确认中' },
-        { key: 'SUCCESS', display_name: '充值成功，钱已到账可使用,等待L2验证批准中' },
-        { key: 'SUCCESS_L2_APPROVED', display_name: 'L2验证批准通过【终态】' },
-        { key: 'CANCELED', display_name: 'L1创建确认失败，已取消充值【终态】' },
-        { key: 'FAILED_CENSOR_FAILURE', display_name: '充值失败。审查验证充值数据不正确，所有数据回滚。【终态】' },
-        { key: 'FAILED_L2_REJECTED', display_name: '充值失败。L2验证拒绝，已到账的钱要回滚' }
+        { key: 'UNKNOWN_ORDER_STATUS', display_name: '未知状态' },
+        { key: 'PENDING', display_name: '委托单已提交' },
+        { key: 'OPEN', display_name: '委托单已被撮合引擎处理(已挂单)，可能部分成交' },
+        { key: 'FILLED', display_name: '委托单已完全成交【终态】' },
+        { key: 'CANCELED', display_name: '委托单已被取消。可能部分成交。【终态】' },
+        { key: 'EXPIRED', display_name: '委托单已过期。可能部分成交。【终态】' },
+        { key: 'UNTRIGGERED', display_name: '条件委托单尚未被触发滚' }
       ],
       enabledCurrencyOptions: [
         { key: 'USDC', display_name: 'USDC' }
@@ -89,6 +89,14 @@ export default {
       this.enabledTypeOptions.map(item => {
         // return item[row.status]
       })
+    },
+    formatterStatus(row, column, cellValue, index) {
+      const str = this.enabledTypeOptions.map(item => {
+        if (item.key === row.status) {
+          return item.display_name
+        }
+      })
+      return str
     }
   }
 }

@@ -110,7 +110,7 @@
     </el-dialog>
     <!--表格渲染-->
     <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
-      <el-table-column type="selection" width="55" />
+      <!-- <el-table-column type="selection" width="55" /> -->
       <el-table-column prop="id" label="UID" />
       <el-table-column prop="nickname" label="昵称" />
       <el-table-column prop="eth_address" label="Address" />

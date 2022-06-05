@@ -95,14 +95,14 @@ export default {
     formatterTimer(row, column) {
       if (column.property === 'l1_tx.time') {
         return this.$moment(row.l1_tx.time * 1000).format('YYYY-MM-DD:HH-mm-ss')
-      } else if (row.column === 'SUCCESS' && column.property === 'updated_time') {
+      } else if (row.status === 'SUCCESS' && column.property === 'updated_time') {
         return this.$moment(Math.round(row[column.property])).format('YYYY-MM-DD:HH-mm-ss')
       } else {
         return '-'
       }
     },
     formatterStatus(row, column, cellValue, index) {
-      let str = this.enabledTypeOptions.map(item => {
+      const str = this.enabledTypeOptions.map(item => {
         if (item.key === row.status) {
           return item.display_name
         }

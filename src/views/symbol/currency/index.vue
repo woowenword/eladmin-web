@@ -6,8 +6,8 @@
       <div class="head-container">
         <crudOperation show="" :permission="permission">
           <el-button
-            v-permission="['admin','symbol:up']"
             slot="left"
+            v-permission="['admin','symbol:up']"
             class="filter-item"
             type="default"
             icon="el-icon-upload2"
@@ -93,9 +93,11 @@
       </el-dialog>
       <!--表格渲染-->
       <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
-        <el-table-column type="selection" width="55" />
-        <el-table-column :show-overflow-tooltip="true" prop="coin" label="coin" />
+        <!-- <el-table-column type="selection" width="55" /> -->
+        <el-table-column prop="symbol" width="100" label="币对编号" />
+        <el-table-column prop="symbol_name" width="100" label="币对名称" />
         <el-table-column prop="coin_name" label="币种名称" />
+        <el-table-column :show-overflow-tooltip="true" prop="coin" label="coin" />
         <el-table-column prop="contract_status" label="合约状态" />
         <el-table-column prop="contract_type" width="110" label="合约类型" />
         <el-table-column prop="cross_idx" width="100" label="撮合服务编号" />
@@ -107,8 +109,6 @@
         <el-table-column prop="one_x" width="100" label="qty放大倍数" />
         <el-table-column prop="price_fraction" width="100" label="价格小数位数" />
         <el-table-column prop="price_scale" width="100" label="价格缩放倍数" />
-        <el-table-column prop="symbol" width="100" label="币对编号" />
-        <el-table-column prop="symbol_name" width="100" label="币对名称" />
         <el-table-column prop="tick_size_x" width="100" label="价格最小增量" />
         <el-table-column prop="value_scale" width="100" label="价值缩放倍数" />
         <el-table-column prop="version" width="100" label="版本号" />

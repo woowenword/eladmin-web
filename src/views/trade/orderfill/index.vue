@@ -9,9 +9,9 @@
         <el-select v-model="query.currencyId" clearable size="small" placeholder="币种" class="filter-item" style="width: 90px" @change="crud.toQuery">
           <el-option v-for="item in enabledCurrencyOptions" :key="item.key" :label="item.display_name" :value="item.key" />
         </el-select>
-        <el-select v-model="query.depositStatus" clearable size="small" placeholder="状态" class="filter-item" style="width: 90px" @change="crud.toQuery">
+        <!-- <el-select v-model="query.depositStatus" clearable size="small" placeholder="状态" class="filter-item" style="width: 90px" @change="crud.toQuery">
           <el-option v-for="item in enabledTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
-        </el-select>
+        </el-select> -->
         <rrOperation />
       </div>
       <crudOperation :permission="permission" />
@@ -59,15 +59,6 @@ export default {
         edit: ['admin', 'dept:edit'],
         del: ['admin', 'dept:del']
       },
-      enabledTypeOptions: [
-        { key: 'UNKNOWN_DEPOSIT_STATUS', display_name: '未知状态' },
-        { key: 'PENDING_L1_CREATING', display_name: '已在L1发现充值交易，创建确认中' },
-        { key: 'SUCCESS', display_name: '充值成功，钱已到账可使用,等待L2验证批准中' },
-        { key: 'SUCCESS_L2_APPROVED', display_name: 'L2验证批准通过【终态】' },
-        { key: 'CANCELED', display_name: 'L1创建确认失败，已取消充值【终态】' },
-        { key: 'FAILED_CENSOR_FAILURE', display_name: '充值失败。审查验证充值数据不正确，所有数据回滚。【终态】' },
-        { key: 'FAILED_L2_REJECTED', display_name: '充值失败。L2验证拒绝，已到账的钱要回滚' }
-      ],
       enabledCurrencyOptions: [
         { key: 'USDC', display_name: 'USDC' }
       ]

@@ -9,7 +9,7 @@
             <el-input v-model="query.accountId" clearable size="small" placeholder="输入accountId" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
             <el-input v-model="query.keyword" clearable size="small" placeholder="输入名称搜索" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
             <date-range-picker v-model="query.createTime" class="date-item" />
-            <el-select v-model="query.depositStatus" clearable size="small" placeholder="状态" class="filter-item" style="width: 90px" @change="crud.toQuery">
+            <el-select v-model="query.withdrawStatus" clearable size="small" placeholder="状态" class="filter-item" style="width: 90px" @change="crud.toQuery">
               <el-option v-for="item in enabledTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
             </el-select>
             <rrOperation />
@@ -71,7 +71,7 @@ export default {
       },
       enabledTypeOptions: [
         { key: 'UNKNOWN_WITHDRAW_STATUS', display_name: '未知状态' },
-        { key: 'PENDING_CENSORING ', display_name: '审查验证成功，等待L2验证批准中' },
+        { key: 'PENDING_CENSORING ', display_name: '审查验证结果中' },
         { key: 'PENDING_L2_APPROVING', display_name: '审查验证成功，等待L2验证批准中' },
         { key: ' PENDING_L1_CONFIRMING', display_name: 'L2验证批准完成，等待提现交易L1确认中' },
         { key: 'PENDING_L1_WITHDRAWING', display_name: '提现交易L1确认完成，等待用户在L1合约中提现' },
@@ -100,7 +100,7 @@ export default {
       }
     },
     formatterStatus(row, column, cellValue, index) {
-      let str = this.enabledTypeOptions.map(item => {
+      const str = this.enabledTypeOptions.map(item => {
         if (item.key === row.status) {
           return item.display_name
         }

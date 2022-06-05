@@ -6,6 +6,7 @@
       <div class="head-container">
         <crudOperation show="" :permission="permission">
           <el-button
+            v-permission="['admin','symbol:up']"
             slot="left"
             class="filter-item"
             type="default"
@@ -112,17 +113,13 @@
         <el-table-column prop="value_scale" width="100" label="价值缩放倍数" />
         <el-table-column prop="version" width="100" label="版本号" />
         <el-table-column
-          v-if="checkPer(['admin','user:edit','user:del'])"
           label="操作"
           width="115"
           align="center"
           fixed="right"
         >
           <template slot-scope="scope">
-            <udOperation
-              :data="scope.row"
-              :permission="permission"
-            />
+            <el-button v-permission="permission.edit" :loading="crud.status.cu === 2" size="mini" type="primary" icon="el-icon-edit" @click="crud.toEdit(scope.row)" />
           </template>
         </el-table-column>
       </el-table>
@@ -136,14 +133,13 @@
 import crudCurrency from '@/api/symbol/currency'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import crudOperation from '@crud/CRUD.operation'
-import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 const defaultForm = { id: null, coin: null, coin_name: null, contract_status: null, contract_type: null, cross_idx: null, cross_name: null, lot_fraction: null, lot_size_x: null, min_price_x: null, min_qty_x: null, one_x: null, price_fraction: null, price_scale: null, symbol: null, symbol_name: null, tick_size_x: null, value_scale: null, version: null }
 export default {
   name: 'Currency',
-  components: { Treeselect, crudOperation, udOperation, pagination },
+  components: { Treeselect, crudOperation, pagination },
   cruds() {
     return CRUD({ title: '币种管理', url: 'api/symbol/list', crudMethod: { ...crudCurrency }})
   },
@@ -170,9 +166,9 @@ export default {
         { id: 'LinearPerpetual', label: 'LinearPerpetual' }
       ],
       permission: {
-        add: ['admin', 'user:add'],
-        edit: ['admin', 'user:edit'],
-        del: ['admin', 'user:del']
+        add: ['admin', 'symbol:add'],
+        edit: ['admin', 'symbol:edit'],
+        del: []
       },
       rules: {
         username: [
@@ -189,8 +185,8 @@ export default {
     this.crud.msg.add = '新增成功'
     this.crud.optShow = {
       add: true,
-      edit: true,
-      del: true,
+      edit: false,
+      del: false,
       download: false
     }
   },

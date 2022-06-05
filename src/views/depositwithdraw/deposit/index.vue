@@ -27,7 +27,7 @@
         <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
           <el-table-column type="selection" width="55" />
           <el-table-column label="充值时间" prop="l1_tx.time" :formatter="formatterTimer" width="150" />
-          <el-table-column :show-overflow-tooltip="true" label="状态" align="center" prop="status" />
+          <el-table-column :show-overflow-tooltip="true" label="状态" prop="status" :formatter="formatterStatus" />
           <el-table-column label="币种" prop="currency_id" />
           <el-table-column label="金额" prop="amount" />
           <el-table-column label="原始链" prop="origin_chain" />
@@ -95,11 +95,19 @@ export default {
     formatterTimer(row, column) {
       if (column.property === 'l1_tx.time') {
         return this.$moment(row.l1_tx.time * 1000).format('YYYY-MM-DD:HH-mm-ss')
-      } else if (row.status === 'SUCCESS' && column.property === 'updated_time') {
+      } else if (row.column === 'SUCCESS' && column.property === 'updated_time') {
         return this.$moment(Math.round(row[column.property])).format('YYYY-MM-DD:HH-mm-ss')
       } else {
         return '-'
       }
+    },
+    formatterStatus(row, column, cellValue, index) {
+      let str = this.enabledTypeOptions.map(item => {
+        if (item.key === row.status) {
+          return item.display_name
+        }
+      })
+      return str
     }
   }
 }

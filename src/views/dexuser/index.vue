@@ -34,7 +34,7 @@
             <el-input v-model="form.base_info.level" style="width: 220px;" :readonly="true" />
           </el-form-item>
         </div>
-        <p>资产信息，当前[Oracle Price] BTC: / ETH:</p>
+        <p>资产信息，当前[Oracle Price] BTC: / ETH: {{ form.other.oracle_eth }}</p>
         <div class="border-style">
           <el-form-item label="总资产" prop="property.total_account_value">
             <el-input v-model="form.property.total_account_value" style="width: 220px;" :readonly="true" />
@@ -135,7 +135,9 @@ import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { base_info: { id: null, nickname: null, created_time: null, eth_address: null, email: null, account_id: null }, property: { total_account_value: null, volume_for_30day: null, margin_value: null, position_value: null }}
+const defaultForm = { base_info: { id: null, nickname: null, created_time: null, eth_address: null, email: null },
+  property: { total_account_value: null, volume_for_30day: null, margin_value: null, position_value: null },
+  other: { oracle_btc: null, oracle_eth: null, account_id: null }}
 export default {
   name: 'OnlineUser',
   components: { pagination, crudOperation, rrOperation },

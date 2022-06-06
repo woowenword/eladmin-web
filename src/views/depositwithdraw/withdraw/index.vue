@@ -6,7 +6,7 @@
         <div class="head-container">
           <div v-if="crud.props.searchToggle">
             <!-- 搜索 -->
-            <el-input v-model="query.accountId" clearable size="small" placeholder="输入accountId" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+            <el-input v-model="accountIdUrl" clearable size="small" placeholder="输入accountId" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
             <el-input v-model="query.keyword" clearable size="small" placeholder="输入名称搜索" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
             <date-range-picker v-model="query.createTime" class="date-item" />
             <el-select v-model="query.withdrawStatus" clearable size="small" placeholder="状态" class="filter-item" style="width: 90px" @change="crud.toQuery">
@@ -59,9 +59,9 @@ export default {
   // 设置数据字典
   dicts: ['dept_status'],
   data() {
-    const query = this.$route.query
+    const queryUrl = this.$route.query
     return {
-      accountId: query.accountIdUrl,
+      accountIdUrl: queryUrl.accountIdUrl || this.crud.query.accountId,
       activeName: 'first',
       depts: [],
       permission: {

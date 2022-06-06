@@ -8,7 +8,7 @@
       <crudOperation show="" :permission="permission" />
     </div>
     <!--Form表单-->
-    <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" append-to-body width="730px">
+    <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" title="查看详情" append-to-body width="80%">
       <el-form ref="form" :inline="true" :model="form" size="small" label-width="100px">
         <p>基础资料</p>
         <div class="border-style">
@@ -103,10 +103,6 @@
           </el-table>
         </div>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="text" @click="crud.cancelCU">取消</el-button>
-        <el-button :loading="crud.status.cu === 2" type="primary" @click="crud.submitCU">确认</el-button>
-      </div>
     </el-dialog>
     <!--表格渲染-->
     <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
@@ -180,7 +176,6 @@ export default {
       return this.$moment(Math.round(row.created_time)).format('YYYY-MM-DD:HH-mm-ss')
     },
     toJumpWithdraw(id) {
-      debugger
       this.$router.push(
         { path: '/depositwithdraw/withdraw', query: { accountIdUrl: id }}
       )

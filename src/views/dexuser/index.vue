@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="head-container">
       <div v-if="crud.props.searchToggle">
-        <el-input v-model="query.filter" clearable size="small" placeholder="输入Address、昵称、邮箱开始检索" style="width: 300px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <el-input v-model="query.keyword" clearable size="small" placeholder="输入Address、昵称 、邮箱、UID" style="width: 300px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <rrOperation />
       </div>
       <crudOperation show="" :permission="permission" />
@@ -19,43 +19,40 @@
             <el-input v-model="form.base_info.nickname" style="width: 220px;" :readonly="true" />
           </el-form-item>
           <el-form-item label="注册时间" prop="base_info.created_time">
-            <el-input v-model="form.base_info.created_time" style="width: 220px;" :readonly="true" />
+            <el-date-picker v-model="form.base_info.created_time" style="width: 220px;" value-format="timestamp" format="yyyy-mm-dd hh:mm:ss" :readonly="true" />
           </el-form-item>
-          <el-form-item label="最后登录时间" prop="base_info.created_time">
-            <el-input v-model="form.base_info.created_time" style="width: 220px;" :readonly="true" />
-          </el-form-item>
+          <!-- <el-form-item label="最后登录时间" prop="base_info.created_time">
+            <el-date-picker v-model="form.base_info.updated_time" style="width: 220px;" value-format="timestamp" format="yyyy-mm-dd hh:mm:ss" />
+          </el-form-item> -->
           <el-form-item label="Address" prop="base_info.eth_address">
             <el-input v-model="form.base_info.eth_address" style="width: 220px;" :readonly="true" />
           </el-form-item>
           <el-form-item label="邮箱" prop="base_info.email">
             <el-input v-model="form.base_info.email" style="width: 220px;" :readonly="true" />
           </el-form-item>
-          <el-form-item label="账户状态" prop="base_info.eth_address">
-            <el-input v-model="form.base_info.eth_address" style="width: 220px;" :readonly="true" />
+          <el-form-item label="账户等级" prop="base_info.eth_address">
+            <el-input v-model="form.base_info.level" style="width: 220px;" :readonly="true" />
           </el-form-item>
         </div>
-        <p>资产信息</p>
+        <p>资产信息，当前[Oracle Price] BTC: / ETH:</p>
         <div class="border-style">
           <el-form-item label="总资产" prop="property.total_account_value">
             <el-input v-model="form.property.total_account_value" style="width: 220px;" :readonly="true" />
           </el-form-item>
-          <el-form-item label="30日交易集" prop="property.volume_for_30day">
-            <el-input v-model="form.property.volume_for_30day" style="width: 220px;" :readonly="true" />
+          <el-form-item label="仓位价值" prop="property.position_value">
+            <el-input v-model="form.property.position_value" style="width: 220px;" :readonly="true" />
           </el-form-item>
           <el-form-item label="可用保证金" prop="property.margin_value">
             <el-input v-model="form.property.margin_value" style="width: 220px;" :readonly="true" />
           </el-form-item>
+          <el-form-item label="30日交易集" prop="property.volume_for_30day">
+            <el-input v-model="form.property.volume_for_30day" style="width: 220px;" :readonly="true" />
+          </el-form-item>
           <el-form-item label="累计交易值" prop="property.margin_value">
             <el-input v-model="form.property.margin_value" style="width: 220px;" :readonly="true" />
           </el-form-item>
-          <el-form-item label="仓位价值" prop="property.position_value">
+          <el-form-item label="累计手续费" prop="property.position_value">
             <el-input v-model="form.property.position_value" style="width: 220px;" :readonly="true" />
-          </el-form-item>
-          <el-form-item label="累计手续费贡献" prop="property.position_value">
-            <el-input v-model="form.property.position_value" style="width: 220px;" :readonly="true" />
-          </el-form-item>
-          <el-form-item label="用户手续费等级" prop="property.position_value">
-            <el-input v-model="form.property.position_valuex" style="width: 220px;" :readonly="true" />
           </el-form-item>
         </div>
         <p>查询</p>
@@ -64,7 +61,7 @@
             class="filter-item"
             size="mini"
             type="default"
-            @click="toJumpDeposite(form.base_info.account_id)"
+            @click="toJumpDeposite(form.other.account_id)"
           >
             充值记录
           </el-button>
@@ -72,7 +69,7 @@
             class="filter-item"
             size="mini"
             type="default"
-            @click="toJumpWithdraw(form.base_info.account_id)"
+            @click="toJumpWithdraw(form.other.account_id)"
           >
             提现记录
           </el-button>
@@ -107,8 +104,8 @@
     <!--表格渲染-->
     <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
       <!-- <el-table-column type="selection" width="55" /> -->
-      <el-table-column prop="id" label="UID" />
-      <el-table-column prop="nickname" label="昵称" />
+      <el-table-column prop="id" label="UID" width="160" />
+      <el-table-column prop="nickname" label="昵称" width="100" />
       <el-table-column prop="eth_address" label="Address" />
       <el-table-column prop="email" label="邮箱" />
       <el-table-column prop="created_time" label="注册时间" :formatter="formatterTimer" width="150" />
@@ -116,12 +113,12 @@
         <template slot-scope="scope">
           <!-- <el-button v-permission="['admin','timing:edit']" size="mini" style="margin-right: 3px;" type="text" @click="crud.toEdit(scope.row)">查看</el-button> -->
           <el-button
-            v-permission="['admin','timing:edit']"
+            v-permission="['admin','detail:query']"
             :loading="lookLoading"
             size="mini"
             style="margin-right: 3px;"
             type="text"
-            @click="handelEdit(scope.row)"
+            @click="handelDetail(scope.row)"
           > 查看 </el-button>
         </template>
       </el-table-column>
@@ -153,7 +150,6 @@ export default {
     }
   },
   created() {
-    this.crud.msg.del = '强退成功！'
     this.crud.optShow = {
       add: false,
       edit: false,
@@ -162,15 +158,14 @@ export default {
     }
   },
   methods: {
-    handelEdit(row) {
+    handelDetail(row) {
       this.lookLoading = true
-      crudDexu.edit(row.id).then((res) => {
+      crudDexu.detail(row.id).then((res) => {
         this.lookLoading = false
         this.crud.toEdit(res)
       }).catch(() => {
         this.lookLoading = false
       })
-      this.crud.toEdit()
     },
     formatterTimer(row, column) {
       return this.$moment(Math.round(row.created_time)).format('YYYY-MM-DD:HH-mm-ss')

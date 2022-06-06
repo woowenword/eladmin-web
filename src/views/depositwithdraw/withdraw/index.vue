@@ -6,8 +6,8 @@
         <div class="head-container">
           <div v-if="crud.props.searchToggle">
             <!-- 搜索 -->
-            <el-input v-model="accountIdUrl" clearable size="small" placeholder="输入accountId" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
-            <el-input v-model="query.keyword" clearable size="small" placeholder="输入名称搜索" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+            <el-input v-model="query.accountId" clearable size="small" placeholder="输入accountId" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+            <el-input v-model="query.keyword" clearable size="small" placeholder="输入Address、昵称 、邮箱、UID" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
             <date-range-picker v-model="query.sectionTime" class="date-item" />
             <el-select v-model="query.withdrawStatus" clearable size="small" placeholder="状态" class="filter-item" style="width: 90px" @change="crud.toQuery">
               <el-option v-for="item in enabledTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
@@ -33,9 +33,9 @@
         <pagination />
       </div>
     </el-tab-pane>
-    <el-tab-pane label="跨链提现" name="second">
+    <el-tab-pane label="快速提现" name="second">
       <div>
-        跨链充值
+        快速提现
       </div>
     </el-tab-pane>
   </el-tabs>
@@ -59,9 +59,9 @@ export default {
   // 设置数据字典
   dicts: ['dept_status'],
   data() {
-    const queryUrl = this.$route.query
+    const query = this.$route.query
     return {
-      accountIdUrl: queryUrl.accountIdUrl || this.crud.query.accountId,
+      accountId: query.accountIdUrl,
       activeName: 'first',
       depts: [],
       permission: {

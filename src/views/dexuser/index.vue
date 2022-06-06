@@ -13,49 +13,49 @@
         <p>基础资料</p>
         <div class="border-style">
           <el-form-item label="UID" prop="base_info.id">
-            <el-input v-model="form.base_info.id" style="width: 220px;" />
+            <el-input v-model="form.base_info.id" style="width: 220px;" :readonly="true" />
           </el-form-item>
           <el-form-item label="昵称" prop="base_info.nickname">
-            <el-input v-model="form.base_info.nickname" style="width: 220px;" />
+            <el-input v-model="form.base_info.nickname" style="width: 220px;" :readonly="true" />
           </el-form-item>
           <el-form-item label="注册时间" prop="base_info.created_time">
-            <el-input v-model="form.base_info.created_time" style="width: 220px;" />
+            <el-input v-model="form.base_info.created_time" style="width: 220px;" :readonly="true" />
           </el-form-item>
           <el-form-item label="最后登录时间" prop="base_info.created_time">
-            <el-input v-model="form.base_info.created_time" style="width: 220px;" />
+            <el-input v-model="form.base_info.created_time" style="width: 220px;" :readonly="true" />
           </el-form-item>
           <el-form-item label="Address" prop="base_info.eth_address">
-            <el-input v-model="form.base_info.eth_address" style="width: 220px;" />
+            <el-input v-model="form.base_info.eth_address" style="width: 220px;" :readonly="true" />
           </el-form-item>
           <el-form-item label="邮箱" prop="base_info.email">
-            <el-input v-model="form.base_info.email" style="width: 220px;" />
+            <el-input v-model="form.base_info.email" style="width: 220px;" :readonly="true" />
           </el-form-item>
           <el-form-item label="账户状态" prop="base_info.eth_address">
-            <el-input v-model="form.base_info.eth_address" style="width: 220px;" />
+            <el-input v-model="form.base_info.eth_address" style="width: 220px;" :readonly="true" />
           </el-form-item>
         </div>
         <p>资产信息</p>
         <div class="border-style">
           <el-form-item label="总资产" prop="property.total_account_value">
-            <el-input v-model="form.property.total_account_value" style="width: 220px;" />
+            <el-input v-model="form.property.total_account_value" style="width: 220px;" :readonly="true" />
           </el-form-item>
           <el-form-item label="30日交易集" prop="property.volume_for_30day">
-            <el-input v-model="form.property.volume_for_30day" style="width: 220px;" />
+            <el-input v-model="form.property.volume_for_30day" style="width: 220px;" :readonly="true" />
           </el-form-item>
           <el-form-item label="可用保证金" prop="property.margin_value">
-            <el-input v-model="form.property.margin_value" style="width: 220px;" />
+            <el-input v-model="form.property.margin_value" style="width: 220px;" :readonly="true" />
           </el-form-item>
           <el-form-item label="累计交易值" prop="property.margin_value">
-            <el-input v-model="form.property.margin_value" style="width: 220px;" />
+            <el-input v-model="form.property.margin_value" style="width: 220px;" :readonly="true" />
           </el-form-item>
           <el-form-item label="仓位价值" prop="property.position_value">
-            <el-input v-model="form.property.position_value" style="width: 220px;" />
+            <el-input v-model="form.property.position_value" style="width: 220px;" :readonly="true" />
           </el-form-item>
           <el-form-item label="累计手续费贡献" prop="property.position_value">
-            <el-input v-model="form.property.position_value" style="width: 220px;" />
+            <el-input v-model="form.property.position_value" style="width: 220px;" :readonly="true" />
           </el-form-item>
           <el-form-item label="用户手续费等级" prop="property.position_value">
-            <el-input v-model="form.property.position_valuex" style="width: 220px;" />
+            <el-input v-model="form.property.position_valuex" style="width: 220px;" :readonly="true" />
           </el-form-item>
         </div>
         <p>查询</p>
